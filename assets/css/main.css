@@ -1396,7 +1396,7 @@
 	}
 
 	body {
-		background: #2e3842;
+		background: #96C2EA;
 	}
 
 		body.is-loading *, body.is-loading *:before, body.is-loading *:after {
@@ -2526,16 +2526,12 @@
 			flex-direction: row-reverse;
 		}
 
-		.spotlight:nth-child(1) {
-			background-color: rgba(0, 0, 0, 0.075);
-		}
-
 		.spotlight:nth-child(2) {
-			background-color: rgba(0, 0, 0, 0.15);
+			background-color: #96C2EA;
 		}
 
 		.spotlight:nth-child(3) {
-			background-color: rgba(0, 0, 0, 0.225);
+			background-color: #ECFAFC;
 		}
 
 		.spotlight:nth-child(4) {
@@ -2641,8 +2637,8 @@
 		}
 
 		.wrapper.style1 {
-			background-color: #4598c8;
-			color: #d0e5f1;
+			background-color: #F7FAFA;
+			color: #4598c8;
 		}
 
 			.wrapper.style1 strong, .wrapper.style1 b {
@@ -2650,7 +2646,7 @@
 			}
 
 			.wrapper.style1 h2, .wrapper.style1 h3, .wrapper.style1 h4, .wrapper.style1 h5, .wrapper.style1 h6 {
-				color: #ffffff;
+				color: #DFE2DD; 
 			}
 
 			.wrapper.style1 hr {
@@ -2674,7 +2670,7 @@
 			}
 
 			.wrapper.style1 header.major p {
-				color: #d0e5f1;
+				color: #DFE2DD;
 			}
 
 			.wrapper.style1 label {
@@ -2795,7 +2791,7 @@
 			}
 
 		.wrapper.style2 {
-			background-color: #2e3842;
+			background-color: #A0F3B2;
 		}
 
 		.wrapper.style3 {
@@ -3160,7 +3156,7 @@
 		-ms-transition: -ms-transform 0.5s ease;
 		transition: transform 0.5s ease;
 		-webkit-overflow-scrolling: touch;
-		background: #4598c8;
+		background: #96C2EA;
 		color: #ffffff;
 		height: 100%;
 		max-width: 80%;
@@ -3254,7 +3250,7 @@
 		-webkit-transition: background-color 0.2s ease;
 		-ms-transition: background-color 0.2s ease;
 		transition: background-color 0.2s ease;
-		background: #2e3842;
+		background: #96C2EA;
 		height: 3em;
 		left: 0;
 		line-height: 3em;

@@ -18,8 +18,6 @@ License: pixelarity.com/license
             meter {
                 width: 20em;
                 height:3em;  
-                
-                
             }
 
             .currentText, .totalText {
@@ -63,7 +61,8 @@ License: pixelarity.com/license
                     <div>
                         <span class = "currentText">$50</span>
                         &nbsp;&nbsp;&nbsp;
-                        <meter max="100" min = "0" value = "50"></meter>
+                        <meter id = "progressMeter" max="100" min = "0" value="50"></meter>
+                        <script>updateColor()</script>
                         &nbsp;&nbsp;&nbsp;
                         <span class = "totalText">$100</span>
                     </div>
