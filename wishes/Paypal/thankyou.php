@@ -1,110 +1,148 @@
 <?php
-
 require "config.php";
 require "connect.php";
 
 if(isset($_POST['submitform']) && isset($_POST['txn_id']))
 {
-	$_POST['nameField'] = esc($_POST['nameField']);
-	$_POST['websiteField'] =  esc($_POST['websiteField']);
-	$_POST['messageField'] = esc($_POST['messageField']);
-	
-	$error = array();
-	
-	if(mb_strlen($_POST['nameField'],"utf-8")<2)
-	{
-		$error[] = 'Please fill in a valid name.';
-	}
-	
-	if(mb_strlen($_POST['messageField'],"utf-8")<2)
-	{
-		$error[] = 'Please fill in a longer message.';
-	}
-	
-	if(!validateURL($_POST['websiteField']))
-	{
-		$error[] = 'The URL you entered is invalid.';
-	}
+    $_POST['nameField'] = esc($_POST['nameField']);
+    $_POST['websiteField'] =  esc($_POST['websiteField']);
+    $_POST['messageField'] = esc($_POST['messageField']);
 
-	$errorString = '';
-	if(count($error))
-	{
-		$errorString = join('<br />',$error);
-	}
-	else
-	{
-		mysql_query("	INSERT INTO dc_comments (transaction_id, name, url, message)
-						VALUES (
-							'".esc($_POST['txn_id'])."',
-							'".$_POST['nameField']."',
-							'".$_POST['websiteField']."',
-							'".$_POST['messageField']."'
-						)");
-		
-		if(mysql_affected_rows($link)==1)
-		{
-			$messageString = '<a href="donate.php">You were added to our donor list! &raquo;</a>';
-		}
-	}
+    $error = array();
+
+    if(mb_strlen($_POST['messageField'],"utf-8")<2)
+    {
+        $error[] = 'Please fill in a longer message.';
+    }
+
+
+    $errorString = '';
+    if(count($error))
+    {
+        $errorString = join('<br />',$error);
+    }
+    else
+    {
+        $notifications = (int) isset($_POST['emailField']);
+
+        echo $_POST['nameField'].$_POST['messageField'].$notifications.$_POST['txn_id'];
+
+        mysql_query("   Update Donations Set Name = '".$_POST['nameField']."', Message = '".$_POST['messageField']."', Notifications =  '".$notifications."' Where TransactionID = '".$_POST['txn_id']."';   ");
+        if(mysql_affected_rows($link)==1)
+        {
+            echo '<a href="donate.php">Thank you for donating!</a>';
+        }
+    }
 }
-	
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Thank you!</title>
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Kidstarter</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+        <link rel="stylesheet" href="../../assets/css/main.css" />
+        <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+        <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+        <link rel="shortcut icon" href="../../images/favicon.ico"/>
+    </head>
+    <body>
 
-<link rel="stylesheet" type="text/css" href="styles.css" />
+        <!-- Page Wrapper -->
+        <div id="page-wrapper">
 
-</head>
+            <!-- Header -->
+            <header id="header">
+                <h1><a href="index.html">Kidstarter</a></h1>
+                <nav id="nav">
+                    <ul>
+                        <li class="special">
+                            <a href="#menu" class="menuToggle"><span>Menu</span></a>
+                            <div id="menu">
+                                <ul>
+                                    <li><a href="../../index.html">Home</a></li>
+                                    <li><a href="../../wishlist.html">Wishlist</a></li>
+                                    <li><a href="../../about.html">About Us</a></li>
+                                    <li><a href="../../contact.html">Contact Us</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
 
-<body class="thankyouPage">
+            <!-- Main -->
+            <article id="main">
+                <header>
+                    <h2>Thanks for Donating!</h2>
+                    <p>Please join our Donor List</p>
+                </header>
+                <section class="wrapper style5">
+                    <div class="inner">
+                        <form action="thankyou.php" method="post">
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" name="nameField" id="nameField" value="" placeholder="Name">
+                            </div>
+                            <br>
+                            
+                            <div class="12u$">
+                                <textarea name="messageField" id="messageField" placeholder="Is there a message you would like to send to the recipient of the wish?" rows="6"></textarea>
+                            </div>
+                            <br>
+                            <div class="6u$ 12u$(small)">
+                                <input type="checkbox" id="emailField" name="emailField" checked>
+                                <label for="emailField">Would you like to receive email notifications about this wish?</label>
+                            </div>
+                            <br>
+                            <div class="12u$">
+				                    <input type="submit" value="Submit" class="special"></li>
+								    <input type="hidden" name="submitform" value="0" />
+                                    <input type="hidden" name="txn_id" value="<?php echo $_POST['txn_id']?>" />
+                            </div>
+                        </form>
 
-<div id="main">
-    <h1>Thank you!</h1>
-    <h2>Add Yourself to our Donor Section</h2>
+                        <?php
+    if($errorString)
+{
+    echo '<p class="error">'.$errorString.'</p>';
+}
+else if($messageString)
+{
+    echo '<p class="success">'.$messageString.'</p>';
+}
+                        ?>
+                    </div>
+                </section>
+            </article>
 
-	<div class="lightSection">
-    	<form action="" method="post">
-        	<div class="field">
-                <label for="nameField">Name</label>
-                <input type="text" id="nameField" name="nameField" />
-			</div>
-            
-            <div class="field">
-                <label for="websiteField">Web Site</label>
-                <input type="text" id="websiteField" name="websiteField" />
-			</div>
-            
-			<div class="field">
-                <label for="messageField">Message</label>
-                <textarea name="messageField" id="messageField"></textarea>
-            </div>
-            
-            <div class="button">
-            	<input type="submit" value="Submit" />
-                <input type="hidden" name="submitform" value="1" />
-                <input type="hidden" name="txn_id" value="<?php echo $_POST['txn_id']?>" />
-            </div>
-        </form>
-        
-        <?php
-		if($errorString)
-		{
-			echo '<p class="error">'.$errorString.'</p>';
-		}
-		else if($messageString)
-		{
-			echo '<p class="success">'.$messageString.'</p>';
-		}
-		?>
-        
-    </div>
+            <!-- Footer -->
+            <footer id="footer">
+                <ul class="icons">
+                    <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                    <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                    <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+                    <li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+                    <li><a href="#" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+                </ul>
+                <ul class="copyright">
+                    <li>&copy; Michael Man 2015</li>
+                </ul>
+            </footer>
 
+        </div>
 
-</body>
+        <!-- Scripts -->
+        <script src="../../assets/js/jquery.min.js"></script>
+        <script src="../../assets/js/jquery.scrollex.min.js"></script>
+        <script src="../../assets/js/jquery.scrolly.min.js"></script>
+        <script src="../../assets/js/skel.min.js"></script>
+        <script src="../../assets/js/util.js"></script>
+        <!--[if lte IE 8]><script src="../../assets/js/ie/respond.min.js"></script><![endif]-->
+        <script src="../../assets/js/main.js"></script>
+
+    </body>
 </html>
 
 
@@ -112,16 +150,16 @@ if(isset($_POST['submitform']) && isset($_POST['txn_id']))
 
 function esc($str)
 {
-	global $link;
-	
-	if(ini_get('magic_quotes_gpc'))
-			$str = stripslashes($str);
-	
-	return mysql_real_escape_string(htmlspecialchars(strip_tags($str)),$link);
+    global $link;
+
+    if(ini_get('magic_quotes_gpc'))
+        $str = stripslashes($str);
+
+    return mysql_real_escape_string(htmlspecialchars(strip_tags($str)),$link);
 }
 
 function validateURL($str)
 {
-	return preg_match('/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:\/~\+#]*[\w\-\@?^=%&amp;\/~\+#])?/i',$str);
+    return preg_match('/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:\/~\+#]*[\w\-\@?^=%&amp;\/~\+#])?/i',$str);
 }
 ?>

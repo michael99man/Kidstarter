@@ -129,10 +129,10 @@ $percent = round(min(100*($sum/$goal),100));
                                        value="<?php echo $myPayPalEmail?>"/>
 
                   <!-- PayPal will send an IPN notification to this URL: -->
-            <input type="hidden" name="notify_url" value="<?php echo $url.'Paypal/ipn.php'?>" /> 
+            <input type="hidden" name="notify_url" value="<?php echo $url.'/Paypal/ipn.php'?>" /> 
 
             <!-- The return page to which the user is navigated after the donations is complete: -->
-            <input type="hidden" name="return" value="<?php echo $url.'Paypal/thankyou.php'?>" /> 
+            <input type="hidden" name="return" value="<?php echo $url.'/Paypal/thankyou.php'?>" /> 
 
                                 <!-- Signifies that the transaction data will be
 passed to the return page by POST: -->
@@ -152,17 +152,9 @@ passed to the return page by POST: -->
 
                                 <!-- The amount of the transaction: -->
 
-                                <select name="amount">
-                                    <option value="50">$50</option>
-                                    <option value="20">$20</option>
-                                    <option value="10" selected="selected">$10</option>
-                                    <option value="5">$5</option>
-                                    <option value="2">$2</option>
-                                    <option value="1">$1</option>
-                                </select>
+                                <input name="amount" type=number id="amount" maxlength="4">
 
-                                <input type="hidden" name="bn" value="
-                                                                      PP-DonationsBF:btn_donate_LG.gif:NonHostedGuest" />
+                                <input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_LG.gif:NonHostedGuest" />
 
                                 <!-- You can change the image of the button: -->
                                 <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!" />
