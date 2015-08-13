@@ -89,6 +89,7 @@ $percent = round(min(100*($sum/$goal),100));
                                     <li><a href="../index.html">Home</a></li>
                                     <li><a href="../Wishlist.html">Wishlist</a></li>
                                     <li><a href="../about.html">About Us</a></li>
+                                    <li><a href="staff.html">Staff</a></li>
                                     <li><a href="../contact.html">Contact Us</a></li>
                                 </ul>
                             </div>
