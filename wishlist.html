@@ -1,9 +1,27 @@
-<!DOCTYPE HTML>
-<!--
-Spectral by Pixelarity
-pixelarity.com @pixelarity
-License: pixelarity.com/license
--->
+<?php
+require "wishes/Paypal/config.php";
+require "wishes/Paypal/connect.php";
+
+//EDIT THIS
+$idArray = array(69,2,3,4,5,6,7,8,9);
+
+//EDIT THIS
+$maxArray = array(100,100,100,100,100,100,100,100,100);
+
+//don't edit this
+$currentArray = array(0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5);
+
+$index = 0;
+foreach ($idArray as $id){
+$result = mysql_query("SELECT ROUND(SUM(Amount), 3) FROM `Donations` WHERE ProjectID='".$id."';");
+$currentArray[$index] = (float) mysql_result($result,0,0); 
+$index = $index + 1;
+}
+?>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
 <html>
     <head>
         <title>Wishlist</title>
@@ -17,11 +35,11 @@ License: pixelarity.com/license
         <style type="text/css">
 
             .textwrap {
-                top:0;
-                left:0;
+                width: 50%;
                 position: absolute;
                 display: block;
-                width: 14.5em;
+                left: 25%;
+                top: 35%;
             }
 
             .trans {
@@ -30,24 +48,78 @@ License: pixelarity.com/license
 
             .progresswrap {
                 bottom:0;
-                left:0;
-                width: 14.5em;
+                left:14.2%;
+                width: 80%;
                 position: absolute;
+                margin-bottom: 15px;
             }
 
-            .thumbnail{
-                position:absolute;
 
+            .thumbnail{
+                -webkit-filter:grayscale(1);
+                -webkit-transition: all 1.2s ease;
+                -moz-transition: all 1.2s ease;
+                filter: grayscale(100%);
+                filter: gray;
             }
 
             table {
                 color: black;
                 border: 1px solid black;
                 border-collapse: collapse;
+            }
+
+            .thumbnailWrapper {
+                opacity: 0;
+                -webkit-transition: all 1.2s ease;
+                -moz-transition: all 1.2s ease;
+            }
+
+            progress[value] {
+                /* Reset the default appearance */
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                border:none;
+                appearance: none;
+                width: 350px;
+                height: 30px;
+            }
+            progress[value]::-webkit-progress-bar {
+                background-color: #ffffff;
+                box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25) inset;
+                border-radius: 12px;
+            }
+
+
+            progress[value]::-webkit-progress-value {
+                background-color: #60ADF3;
+                box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25) inset;
+                border-bottom-left-radius: 12px;
+                border-top-left-radius: 12px;
 
             }
-            
-            
+
+            progress[value]::-moz-progress-bar { 
+                background-color: #ffffff;
+                box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25) inset;
+                border-radius: 12px;
+            }
+            progress[value]::-moz-progress-value { 
+                background-color: #60ADF3;
+                box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25) inset;
+                border-bottom-left-radius: 12px;
+                border-top-left-radius: 12px;
+            }
+
+            .hover:hover > .thumbnailWrapper {
+                opacity: 100;
+            }
+
+            .hover:hover > .thumbnail {
+                filter:grayscale(0%);
+                -webkit-filter: grayscale(0%);
+            }
+
         </style>
     </head>
     <body>
@@ -79,39 +151,177 @@ License: pixelarity.com/license
         <article id="main">
             <header>
                 <h2>Wishlist</h2>
-                <p>Let's make a difference, one wish at a time</p>
+                <p>Make dreams come true, one wish at a time</p>
             </header>
 
 
 
             <div class="box alt">
+
                 <div class="row uniform 50%">
+
+
 
                     <div class="4u" onclick="document.location='wishes/' + this.id+'.php'" id="Generic_Wish_Page">
                         <span class="image fit">
-
-                            <img src="images/wish.jpg" alt="" onmouseout="this.style.opacity=1;" onmouseover="this.style.opacity=0.6;" />
-                            <div class = "textwrap">
-                                <center>
-                                    <p style="color:white;">hi</p>
-                                </center>
-                            </div>
-                            <div class = "progresswrap" >
-                                <center>
-                                    <progress value="0.4"></progress>
-                                </center>
+                            <div class = "hover">
+                                <img class ="thumbnail" src="images/wish.jpg"/>
+                                <div class = "thumbnailWrapper">
+                                    <div class = "textwrap">
+                                        <center><p style="color:white;">Help Jimbo get a new backpack</p></center>
+                                    </div>
+                                    <div class = "progresswrap" >
+                                        <progress value= "<?php echo $currentArray[0]?>" max ="<?php echo $maxArray[0]?>">
+                                        </progress>
+                                    </div>
+                                </div>
                             </div>
                         </span>
                     </div>
 
-                    <div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
-                    <div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
-                    <div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
-                    <div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
-                    <div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
-                    <div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
-                    <div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
-                    <div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
+                    <div class="4u" onclick="document.location='wishes/wishid' + this.id+'.php'" id="<?php echo $idArray[1]?>">
+                        <span class="image fit">
+                            <div class = "hover">
+                                <img class ="thumbnail" src="images/wish.jpg"/>
+                                <div class = "thumbnailWrapper">
+                                    <div class = "textwrap">
+                                        <center><p style="color:white;">Help Jimbo get a new backpack</p></center>
+                                    </div>
+                                    <div class = "progresswrap" >
+                                        <progress value= "<?php echo $currentArray[1]?>" max ="<?php echo $maxArray[1]?>">
+                                        </progress>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="4u" onclick="document.location='wishes/wish_id_' + this.id+'.php'" id="<?php echo $idArray[2]?>">
+                        <span class="image fit">
+                            <div class = "hover">
+                                <img class ="thumbnail" src="images/wish.jpg"/>
+                                <div class = "thumbnailWrapper">
+                                    <div class = "textwrap">
+                                        <center><p style="color:white;">Help Jimbo get a new backpack</p></center>
+                                    </div>
+                                    <div class = "progresswrap" >
+                                        <progress value= "<?php echo $currentArray[2]?>" max ="<?php echo $maxArray[2]?>">
+                                        </progress>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="4u" onclick="document.location='wishes/wish_id_' + this.id+'.php'" id="<?php echo $idArray[3]?>">
+                        <span class="image fit">
+                            <div class = "hover">
+                                <img class ="thumbnail" src="images/wish.jpg"/>
+                                <div class = "thumbnailWrapper">
+                                    <div class = "textwrap">
+                                        <center><p style="color:white;">Help Jimbo get a new backpack</p></center>
+                                    </div>
+                                    <div class = "progresswrap" >
+                                        <progress value= "<?php echo $currentArray[3]?>" max ="<?php echo $maxArray[3]?>">
+                                        </progress>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="4u" onclick="document.location='wishes/wish_id_' + this.id+'.php'" id="<?php echo $idArray[4]?>">
+                        <span class="image fit">
+                            <div class = "hover">
+                                <img class ="thumbnail" src="images/wish.jpg"/>
+                                <div class = "thumbnailWrapper">
+                                    <div class = "textwrap">
+                                        <center><p style="color:white;">Help Jimbo get a new backpack</p></center>
+                                    </div>
+                                    <div class = "progresswrap" >
+                                        <progress value= "<?php echo $currentArray[4]?>" max ="<?php echo $maxArray[4]?>">
+                                        </progress>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+
+                    <div class="4u" onclick="document.location='wishes/wish_id_' + this.id+'.php'" id="<?php echo $idArray[5]?>">
+                        <span class="image fit">
+                            <div class = "hover">
+                                <img class ="thumbnail" src="images/wish.jpg"/>
+                                <div class = "thumbnailWrapper">
+                                    <div class = "textwrap">
+                                        <center><p style="color:white;">Help Jimbo get a new backpack</p></center>
+                                    </div>
+                                    <div class = "progresswrap" >
+                                        <progress value= "<?php echo $currentArray[5]?>" max ="<?php echo $maxArray[5]?>">
+                                        </progress>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+
+                    <div class="4u" onclick="document.location='wishes/wish_id_' + this.id+'.php'" id="<?php echo $idArray[6]?>">
+                        <span class="image fit">
+                            <div class = "hover">
+                                <img class ="thumbnail" src="images/wish.jpg"/>
+                                <div class = "thumbnailWrapper">
+                                    <div class = "textwrap">
+                                        <center><p style="color:white;">Help Jimbo get a new backpack</p></center>
+                                    </div>
+                                    <div class = "progresswrap" >
+                                        <progress value= "<?php echo $currentArray[6]?>" max ="<?php echo $maxArray[6]?>">
+                                        </progress>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+
+                    <div class="4u" onclick="document.location='wishes/wish_id_' + this.id+'.php'" id="<?php echo $idArray[7]?>">
+                        <span class="image fit">
+                            <div class = "hover">
+                                <img class ="thumbnail" src="images/wish.jpg"/>
+                                <div class = "thumbnailWrapper">
+                                    <div class = "textwrap">
+                                        <center><p style="color:white;">Help Jimbo get a new backpack</p></center>
+                                    </div>
+                                    <div class = "progresswrap" >
+                                        <progress value= "<?php echo $currentArray[7]?>" max ="<?php echo $maxArray[7]?>">
+                                        </progress>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+
+                    <div class="4u" onclick="document.location='wishes/wish_id_' + this.id+'.php'" id="<?php echo $idArray[8]?>">
+                        <span class="image fit">
+                            <div class = "hover">
+                                <img class ="thumbnail" src="images/wish.jpg"/>
+                                <div class = "thumbnailWrapper">
+                                    <div class = "textwrap">
+                                        <center><p style="color:white;">Help Jimbo get a new backpack</p></center>
+                                    </div>
+                                    <div class = "progresswrap" >
+                                        <progress value= "<?php echo $currentArray[8]?>" max ="<?php echo $maxArray[8]?>">
+                                        </progress>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                    <!--
+
+<div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
+<div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
+<div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
+<div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
+<div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
+<div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
+<div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
+<div class="4u"><span class="image fit"><img src="images/wish.jpg" alt="" /></span></div>
+-->
                 </div>
             </div>
         </article>
@@ -126,7 +336,7 @@ License: pixelarity.com/license
                 <li><a href="#" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
             </ul>
             <ul class="copyright">
-                <li>&copy; Untitled</li>
+                <li>&copy; Michael Man 2015</li>
             </ul>
         </footer>
 
