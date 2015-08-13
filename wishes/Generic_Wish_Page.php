@@ -1,28 +1,72 @@
-<!DOCTYPE HTML>
-<!--
-Spectral by Pixelarity
-pixelarity.com @pixelarity
-License: pixelarity.com/license
--->
+<?php
+
+require "Paypal/config.php";
+require "Paypal/connect.php";
+// Determining the URL of the page:
+$url = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER["REQUEST_URI"]);
+
+// Fetching the number and the sum of the donations:
+list($number,$sum) = mysql_fetch_array(mysql_query("SELECT COUNT(*),SUM(amount) FROM Donations"));
+
+// Calculating how many percent of the goal were met:
+$percent = round(min(100*($sum/$goal),100));
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
 <html>
     <head>
         <title>GENERIC WISH PAGE</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv = "pragma" content = "no-cache" />
+        <meta http-equiv = "expires" value = "-1"/>
         <!--[if lte IE 8]><script src="../assets/js/ie/html5shiv.js"></script><![endif]-->
         <link rel="stylesheet" href="../assets/css/main.css" />
         <!--[if lte IE 8]><link rel="stylesheet" href="../assets/css/ie8.css" /><![endif]-->
         <!--[if lte IE 9]><link rel="stylesheet" href="../assets/css/ie9.css" /><![endif]-->
+        <link rel="shortcut icon" href="images/Web_Logos/favicon.ico"/>
 
         <style type="text/css">
-            meter {
-                width: 20em;
-                height:3em;  
+            progress[value] {
+                /* Reset the default appearance */
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                border:none;
+                appearance: none;
+                width: 350px;
+                height: 50px;
+            }
+            progress[value]::-webkit-progress-bar {
+                background-color: #ffffff;
+                box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25) inset;
+                border-radius: 12px;
+            }
+
+
+            progress[value]::-webkit-progress-value {
+                background-color: #60ADF3;
+                box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25) inset;
+                border-bottom-left-radius: 12px;
+                border-top-left-radius: 12px;
+
+            }
+
+            progress[value]::-moz-progress-bar { 
+                background-color: #ffffff;
+                box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25) inset;
+                border-radius: 12px;
+            }
+            progress[value]::-moz-progress-value { 
+                background-color: #60ADF3;
+                box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25) inset;
+                border-bottom-left-radius: 12px;
+                border-top-left-radius: 12px;
             }
 
             .currentText, .totalText {
-                font-size: 35px;
-                bottom: .25em;
+                font-size: 30px;
+                bottom: .35em;
                 position: relative;
             }
 
@@ -61,24 +105,83 @@ License: pixelarity.com/license
                     <div>
                         <span class = "currentText">$50</span>
                         &nbsp;&nbsp;&nbsp;
-                        <meter id = "progressMeter" max="100" min = "0" value="50"></meter>
-                        <script>updateColor()</script>
+                        <!--<meter id = "progressMeter" max="100" min = "0" value="50"></meter>-->
+                        <progress max="100" value="50">
+                        </progress>
                         &nbsp;&nbsp;&nbsp;
                         <span class = "totalText">$100</span>
                     </div>
 
                 </header>
                 <section class="wrapper style5">
-                    
-                    
-                    <!-- DONATION IDS -->
+
+
+
                     <div class="inner">
+                        <!-- DONATIONS -->
+                        <form action="<?php echo $payPalURL?>" method="post" class="payPalForm">
+                            <div>
+                                <input type="hidden" name="cmd" value="_donations" />
+                                <input type="hidden" name="item_name" value="Donation" />
+
+                                <!-- Your PayPal email: -->
+                                <input type="hidden" name="business"
+                                       value="<?php echo $myPayPalEmail?>"/>
+
+                  <!-- PayPal will send an IPN notification to this URL: -->
+            <input type="hidden" name="notify_url" value="<?php echo $url.'Paypal/ipn.php'?>" /> 
+
+            <!-- The return page to which the user is navigated after the donations is complete: -->
+            <input type="hidden" name="return" value="<?php echo $url.'Paypal/thankyou.php'?>" /> 
+
+                                <!-- Signifies that the transaction data will be
+passed to the return page by POST: -->
+
+                                <input type="hidden" name="rm" value="2" /> 
+
+                                <!-- General configuration variables for the paypal landing page. -->
+
+                                <input type="hidden" name="no_note" value="1" />
+                                <input type="hidden" name="cbt" value="Go Back To The Site" />
+                                <input type="hidden" name="no_shipping" value="1" />
+                                <input type="hidden" name="lc" value="US" />
+                                <input type="hidden" name="currency_code" value="USD" />
+
+                                <!-- BUTTON ID -->
+                                <input type="hidden" name="hosted_button_id" value="DN96SE9DRE4GC">
+
+                                <!-- The amount of the transaction: -->
+
+                                <select name="amount">
+                                    <option value="50">$50</option>
+                                    <option value="20">$20</option>
+                                    <option value="10" selected="selected">$10</option>
+                                    <option value="5">$5</option>
+                                    <option value="2">$2</option>
+                                    <option value="1">$1</option>
+                                </select>
+
+                                <input type="hidden" name="bn" value="
+                                                                      PP-DonationsBF:btn_donate_LG.gif:NonHostedGuest" />
+
+                                <!-- You can change the image of the button: -->
+                                <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!" />
+
+                                <img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif"
+                                     width="1" height="1" />
+
+                            </div>
+                        </form>
+
+                        <!--
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="DN96SE9DRE4GC">
 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </form>
+-->
+
 
                         <h3>About Lorem ipsum dolor</h3>
                         <p>Morbi mattis mi consectetur tortor elementum, varius pellentesque velit convallis. Aenean tincidunt lectus auctor mauris maximus, ac scelerisque ipsum tempor. Duis vulputate ex et ex tincidunt, quis lacinia velit aliquet. Duis non efficitur nisi, id malesuada justo. Maecenas sagittis felis ac sagittis semper. Curabitur purus leo, tempus sed finibus eget, fringilla quis risus. Maecenas et lorem quis sem varius sagittis et a est. Maecenas iaculis iaculis sem. Donec vel dolor at arcu tincidunt bibendum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce ut aliquet justo. Donec id neque ipsum. Integer eget ultricies odio. Nam vel ex a orci fringilla tincidunt. Aliquam eleifend ligula non velit accumsan cursus. Etiam ut gravida sapien.</p>
@@ -106,7 +209,7 @@ License: pixelarity.com/license
                     <li><a href="#" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
                 </ul>
                 <ul class="copyright">
-                    <li>&copy; Untitled</li>
+                    <li>&copy; Michael Man 2015</li>
                 </ul>
             </footer>
 

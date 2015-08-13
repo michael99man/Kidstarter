@@ -24,7 +24,6 @@
 
 	body {
 		line-height: 1;
-        background-color: #96C2EA;
 	}
 
 	ol, ul {
@@ -105,7 +104,7 @@
 	}
 
 	.row > * {
-		padding: 0 0 0 1.5em;
+		padding: 0 0 0 0em;
 	}
 
 	.row {
@@ -161,7 +160,7 @@
 	}
 
 	.row.uniform.\35 0\25 > * {
-		padding: 0.75em 0 0 0.75em;
+		padding: 0;
 	}
 
 	.row.uniform.\35 0\25 {
@@ -374,7 +373,7 @@
 		}
 
 		.row.uniform.\35 0\25 > * {
-			padding: 0.75em 0 0 0.75em;
+			padding: 0;
 		}
 
 		.row.uniform.\35 0\25 {
@@ -589,7 +588,7 @@
 		}
 
 		.row.uniform.\35 0\25 > * {
-			padding: 0.75em 0 0 0.75em;
+			padding: 0;
 		}
 
 		.row.uniform.\35 0\25 {
@@ -804,7 +803,7 @@
 		}
 
 		.row.uniform.\35 0\25 > * {
-			padding: 0.75em 0 0 0.75em;
+			padding: 0;
 		}
 
 		.row.uniform.\35 0\25 {
@@ -1019,7 +1018,7 @@
 		}
 
 		.row.uniform.\35 0\25 > * {
-			padding: 0.75em 0 0 0.75em;
+			padding: 0;
 		}
 
 		.row.uniform.\35 0\25 {
@@ -1234,7 +1233,7 @@
 		}
 
 		.row.uniform.\35 0\25 > * {
-			padding: 0.75em 0 0 0.75em;
+			padding: 0;
 		}
 
 		.row.uniform.\35 0\25 {
@@ -1397,7 +1396,7 @@
 	}
 
 	body {
-		background: #96C2EA;
+        
 	}
 
 		body.is-loading *, body.is-loading *:before, body.is-loading *:after {
@@ -1450,8 +1449,9 @@
 		-webkit-transition: color 0.2s ease, border-bottom-color 0.2s ease;
 		-ms-transition: color 0.2s ease, border-bottom-color 0.2s ease;
 		transition: color 0.2s ease, border-bottom-color 0.2s ease;
-		border-bottom: dotted 1px;
-		color: inherit;
+		border-bottom: solid 1px;
+		color: #3C7FAF;
+        
 		text-decoration: none;
     
 	}
@@ -1854,7 +1854,6 @@
 	.box {
 		border-radius: 3px;
 		border: solid 2px #fff;
-		margin-bottom: 2em;
 		padding: 1.5em;
 	}
 
@@ -1938,14 +1937,12 @@
 /* Image */
 
 	.image {
-		border-radius: 3px;
 		border: 0;
 		display: inline-block;
 		position: relative;
 	}
 
 		.image img {
-			border-radius: 3px;
 			display: block;
 		}
 
@@ -1971,7 +1968,7 @@
 
 		.image.fit {
 			display: block;
-			margin: 0 0 2em 0;
+            padding: 0;
 			width: 100%;
 		}
 
@@ -2311,7 +2308,7 @@
 		button.special,
 		.button.special {
             /* BUTTONCOLOR */
-			background-color: #3C7FAF;
+			background-color: #78B3DC;
 			box-shadow: none !important;
 			color: #ffffff !important;
 		}
@@ -2321,7 +2318,7 @@
 			input[type="button"].special:hover,
 			button.special:hover,
 			.button.special:hover {
-				background-color: #65be86 !important;
+				background-color: #4195D7 !important;
 			}
 
 			input[type="submit"].special:active,
@@ -2329,7 +2326,7 @@
 			input[type="button"].special:active,
 			button.special:active,
 			.button.special:active {
-				background-color: #47a86c !important;
+				background-color: #4195D7 !important;
 			}
 
 		input[type="submit"].disabled, input[type="submit"]:disabled,
