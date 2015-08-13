@@ -15,8 +15,8 @@ if ($p->validate_ipn()) {
 	{
 		$amount = $p->ipn_data['mc_gross'] - $p->ipn_data['mc_fee'];
 		
-		mysql_query("	INSERT INTO Donations (TransactionID,Email,Amount,Date)
-						VALUES ('".esc($p->ipn_data['txn_id'])."','".esc($p->ipn_data['payer_email'])."','".(float)$amount."','".$date."');");
+		mysql_query("	INSERT INTO Donations (TransactionID,Email,Amount,Date,ProjectID)
+						VALUES ('".esc($p->ipn_data['txn_id'])."','".esc($p->ipn_data['payer_email'])."','".(float)$amount."','".$date."', '".esc($p->ipn_data['custom'])."');");
 	}
 }
 

@@ -24,14 +24,10 @@ if(isset($_POST['submitform']) && isset($_POST['txn_id']))
     else
     {
         $notifications = (int) isset($_POST['emailField']);
-
-        echo $_POST['nameField'].$_POST['messageField'].$notifications.$_POST['txn_id'];
-
         mysql_query("   Update Donations Set Name = '".$_POST['nameField']."', Message = '".$_POST['messageField']."', Notifications =  '".$notifications."' Where TransactionID = '".$_POST['txn_id']."';   ");
-        if(mysql_affected_rows($link)==1)
-        {
-            echo '<a href="donate.php">Thank you for donating!</a>';
-        }
+        header("Location: http://www.kidstarter.fund/wishlist.html");
+        die();
+        exit();
     }
 }
 ?>
