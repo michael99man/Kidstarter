@@ -14,6 +14,14 @@ $url = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER["REQUEST_URI"]);
 // Your goal in USD:
 $goal = 100;
 
+$projectID = 69;
+
+$result = mysql_query("SELECT ROUND(SUM(Amount), 2) FROM `Donations` WHERE ProjectID='".$projectID."';");
+$current = (float) mysql_result($result,0,0);
+
+if ($current > $goal){
+    $current = $goal;
+}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -91,7 +99,6 @@ $goal = 100;
         </style>
     </head>
     <body>
-
         <!-- Page Wrapper -->
         <div id="page-wrapper">
 
@@ -122,13 +129,13 @@ $goal = 100;
                     <h2>Generic Wish Page</h2>
                     <p>Help Jimbo</p>
                     <div>
-                        <span class = "currentText">$50</span>
+                        <span class = "currentText"><?php echo $current ?></span>
                         &nbsp;&nbsp;&nbsp;
                         <!--<meter id = "progressMeter" max="100" min = "0" value="50"></meter>-->
-                        <progress max="100" value="50">
+                        <progress max="<?php echo $goal ?>" value="<?php echo $current ?>">
                         </progress>
                         &nbsp;&nbsp;&nbsp;
-                        <span class = "totalText">$100</span>
+                        <span class = "totalText"><?php echo $goal ?></span>
                     </div>
 
                 </header>
@@ -171,7 +178,7 @@ passed to the return page by POST: -->
                                     <input type="hidden" name="no_shipping" value="1" />
                                     <input type="hidden" name="lc" value="US" />
                                     <input type="hidden" name="currency_code" value="USD" />
-                                    <input type="hidden" name="custom" value = "1000"/>
+                                    <input type="hidden" name="custom" value = "<?php echo $projectID ?>"/>
 
 
                                     <!-- The amount of the transaction: -->
